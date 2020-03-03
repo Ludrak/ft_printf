@@ -1,18 +1,17 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_printf_parser.c                               .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: lrobino <lrobino@student.le-101.fr>        +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/02 23:36:01 by lrobino      #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/04 00:46:31 by lrobino     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_parser.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/29 00:06:42 by lrobino           #+#    #+#             */
+/*   Updated: 2020/02/29 18:14:47 by lrobino          ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+#include <stdio.h>
 int			pf_parse_flags(char *format, t_flags *flags)
 {
 	int		len;
@@ -25,7 +24,7 @@ int			pf_parse_flags(char *format, t_flags *flags)
 			*flags |= PF_ZERO;
 		if (*format == '-' && !((*flags &= ~PF_ZERO) & PF_ZERO))
 			*flags |= PF_MINUS;
-		if (*format == '+') //&& !((*flags &= ~PF_SPACE) & PF_ZERO))
+		if (*format == '+' && !((*flags &= ~PF_SPACE) & PF_ZERO))
 			*flags |= PF_PLUS;
 		if (*format == ' ' && !(*flags & PF_PLUS))
 			*flags |= PF_SPACE;
@@ -65,7 +64,12 @@ void		pf_parse_padding(char *format, t_pf_data *data, va_list args)
 {
 	int		val;
 
-	val = pf_get_number(format, data, args);
+	val = pf_get_number(format, args);
+	if (val < 0)
+	{
+		data->flags |= PF_MINUS;
+		data->flags &= ~PF_ZERO;
+	}
 	data->padding = (val < 0) ? -val : val;
 	if (ft_isdigit(*format) || *format == '-' || *format == '*')
 		data->flags |= PF_PADD;
@@ -79,7 +83,7 @@ void		pf_parse_precision(char *format, t_pf_data *data, va_list args)
 		format++;
 	if (*format++ == '.')
 	{
-		val = pf_get_number(format, data, args);
+		val = pf_get_number(format, args);
 		if (val >= 0)
 		{
 			data->precision = val;

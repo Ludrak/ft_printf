@@ -1,14 +1,13 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_printf.c                                      .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: lrobino <lrobino@student.le-101.fr>        +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/02 23:35:44 by lrobino      #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/04 00:48:15 by lrobino     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/12/02 23:35:44 by lrobino           #+#    #+#             */
+/*   Updated: 2020/03/02 17:57:53 by lrobino          ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
@@ -33,7 +32,7 @@ static t_pf_data	pf_parse(char *format, va_list args)
 	data.f_len = pf_get_format_type(init_format, NULL);
 	return (data);
 }
-
+#include <stdio.h>
 int					ft_printf(char *format, ...)
 {
 	t_pf_data	data;
@@ -62,9 +61,13 @@ int					ft_printf(char *format, ...)
 	va_end(args);
 	return (length);
 }
+#include <stdio.h>
+int main()
+{
+	#define FORMAT	"%#.22X"
+	#define LST		32443242
 
-// int main ()
-// {
-// 	ft_printf("%0+8.5i", 34);
-// 	printf("\n%0+8.5i", 34);
-// }
+	ft_printf(FORMAT, LST);
+	printf ("\n");
+	printf(FORMAT, LST);
+}

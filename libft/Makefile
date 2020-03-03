@@ -6,47 +6,98 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/03 12:27:57 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/03 12:27:58 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-AUTHOR			= lrobino
-
-NAME			= libftprintf.a
-EXEC			= test-printf.out
+#Name if compiled as lib
+NAME			= libft.a
+#Name if compiled as executable
+EXEC			= test-libft.out
 
 VERSION			= 1.0
-
-SRCS			= ft_printf.c					\
-				  ft_printf_parser.c			\
-				  ft_type_parser.c				\
-				  ft_printf_utils.c				\
-				  ft_printf_basic_utils.c		\
-				  ft_printf_basic_utils_bis.c
+AUTHOR			= lrobino
 
 
+SRCS		=	ft_memset.c			\
+				ft_memcpy.c			\
+				ft_memccpy.c		\
+				ft_memmove.c		\
+				ft_bzero.c			\
+				ft_memchr.c			\
+				ft_memcmp.c			\
+				ft_strlen.c			\
+				ft_isalpha.c		\
+				ft_isdigit.c		\
+				ft_isalnum.c		\
+				ft_isascii.c		\
+				ft_isprint.c		\
+				ft_toupper.c		\
+				ft_tolower.c		\
+				ft_strchr.c			\
+				ft_strrchr.c		\
+				ft_strncmp.c		\
+				ft_strlcpy.c		\
+				ft_strlcat.c		\
+				ft_strnstr.c		\
+				ft_atoi.c			\
+				ft_calloc.c			\
+				ft_putchar_fd.c		\
+				ft_putstr_fd.c		\
+				ft_putendl_fd.c		\
+				ft_strdup.c			\
+				ft_putnbr_fd.c		\
+				ft_substr.c			\
+				ft_strjoin.c		\
+				ft_itoa.c			\
+				ft_strmapi.c		\
+				ft_strtrim.c		\
+				ft_split.c			\
+				ft_ltoa_base.c		\
+				ft_itoa_base.c		\
+				ft_strinsert.c		\
+				ft_utoa.c           \
+                ft_lstnew.c			\
+				ft_lstadd_front.c	\
+				ft_lstsize.c		\
+				ft_lstlast.c		\
+				ft_lstadd_back.c	\
+				ft_lstdelone.c		\
+				ft_lstclear.c		\
+				ft_lstiter.c		\
+				ft_lstmap.c
 
-BIN_DIR			= bin
-OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
 
-INCLUDES		= -Iincludes -Ilibft
+# COMP & LIB 
 
-LIBFILES		= libft
-LIBDIR			= lib
+
+#define this to use external libs compilation (need to include a Makefile to compile the lib)
+
+#LIBDIR			= 
+#LIBFILES		= 
 
 ifdef LIBFILES
 	LIBS			= $(addprefix $(LIBDIR)/,$(addprefix $(LIBFILES),.a))
 endif
 
-RM				= rm -rf
+BIN_DIR			= bin
+OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
+
+INCLUDES		= -I.
+
 CC				= gcc -c
 LNK				= gcc
 LIBLNK			= ar rcus
 CFLAGS			= -Wall -Wextra -Werror -g3
 OUT				= --output
 
-C_RESET= \033[0m
+RM				= rm -rf
 
+
+#
+#	COLORS
+#
+C_RESET= \033[0m
 BGREEN = \033[1;32m
 GREEN = \033[0;32m
 YELLOW	= \033[0;33m
@@ -57,7 +108,6 @@ BRED	= \033[1;31m
 RED		= \033[0;31m
 BLUE	= \033[0;34m
 BBLUE	= \033[1;34m
-
 m_MAKE		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)MAKE$(C_RESET)] :
 m_INFO		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)INFO$(C_RESET)] :
 m_LINK		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)LINK$(C_RESET)] :
@@ -80,7 +130,6 @@ bonus : all
 $(NAME) : $(BIN_DIR) $(OBJS)
 	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
 	@echo "$(m_LINK) Starting linker process..."
-	@cp $(LIBS) ./$(NAME)
 	@$(LIBLNK) $(NAME) $(OBJS)
 	@echo "$(m_LINK) Link sucess ! '$(NAME)' created."
 
@@ -116,7 +165,7 @@ $(BIN_DIR)/%.o : %.c
 
 
 $(LIBDIR)/%.a : $(LIBFILES)
-	@echo "\n\n\033[1;36m#################################################################################"
+	@echo "\n\033[1;36m#################################################################################"
 	@printf "\033[1;36m#  \033[0m[\033[1;36mLIBRARY\033[0m] ->	\033[1;35mCOMPILE		\033[0;32mCompiling : \033[0;35m%-30s\033[1;36m      #\n" $<
 	@echo "\033[1;36m#################################################################################"
 	@make re -C $<
@@ -136,7 +185,9 @@ clean :
 lc : lclean
 lclean :
 	@$(RM) $(LIBS)
+ifdef LIBFILES
 	@make fclean -C $(LIBFILES)
+endif
 	@echo "$(m_REMV) Removed libfiles"
 
 
@@ -153,7 +204,6 @@ fclean : lc cl
 
 v : version
 version :
-	@clear
 	@echo "$(BBLUE)#################################################################################"
 	@echo "#                                                                               #"
 
@@ -163,7 +213,7 @@ version :
 	@echo "#     +#+  +:+       +#+                                                        #"
 	@echo "#   +#+#+#+#+#+   +#+                                                           #"
 	@echo "#         #+#    #+#                                                            #"
-	@echo "#        ###   ######## - lyon                                                  #"
+	@echo "#        ###   ######## - Lyon                                                  #"
 	@echo "#                                                                               #"
 	@echo "#$(C_RESET)>-----------------------------------------------------------------------------<$(BBLUE)#"
 	@printf "#$(C_RESET)   Project : %-20.20s                                              $(BBLUE)#\n" $(NAME)
@@ -172,11 +222,15 @@ version :
 
 
 
-re : v fclean $(LIBS) all
+re : v fclean all
 
 
 
-recomp : v clean $(LIBS) compile
+recomp : v fclean $(LIBS) compile
 
-.PHONY	: all c compile recomp re fclean fc lclean lc clean version v cat ce bonus 
 
+ra : re-all
+re-all : v fclean lclean $(LIBS) all
+
+
+.PHONY	: all c compile recomp re ra re-all fclean fc lclean lc clean version v cat ce bonus 

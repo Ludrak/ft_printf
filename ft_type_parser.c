@@ -1,14 +1,13 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_type_parser.c                                 .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: lrobino <lrobino@student.le-101.fr>        +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/02 23:35:36 by lrobino      #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/17 15:08:53 by lrobino     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_type_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/29 00:46:43 by lrobino           #+#    #+#             */
+/*   Updated: 2020/03/02 16:13:46 by lrobino          ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
@@ -38,7 +37,10 @@ int		pf_parse_string(t_pf_data *data, va_list args)
 				return (pf_null(data));
 		}
 		else
+		{
+			va_arg(args, void *);
 			buf = "";
+		}
 		data->content = ft_strdup(buf);
 		data->len = ft_strlen(buf);
 		return (1);
@@ -77,14 +79,24 @@ int		pf_parse_pointer(t_pf_data *data, va_list list)
 
 	if (data->type == PF_POINTER)
 	{
-		if (!(val = (intptr_t)va_arg(list, void *)))
+		if (data->precision != 0)
 		{
-			data->content = ft_strdup("0");
-			data->len = 1;
-			return (1);
+			if (!(val = (intptr_t)va_arg(list, void *)))
+			{
+				data->content = ft_strdup("0");
+				data->len = 1;
+				return (1);
+			}
+			data->content = ft_ltoa_base((intptr_t)val, "0123456789abcdef");
+			data->len = ft_strlen(data->content);
 		}
-		data->content = ft_ltoa_base((intptr_t)val, "0123456789abcdef");
-		data->len = ft_strlen(data->content);
+		else
+		{
+			va_arg(list, void *);
+			data->content = ft_strdup("");
+			data->len = 0;
+		}
+		
 		return (1);
 	}
 	return (0);

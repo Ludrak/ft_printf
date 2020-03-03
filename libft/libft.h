@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   libft.h                                          .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: lrobino <lrobino@student.le-101.fr>        +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/10/23 17:57:39 by lrobino      #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/12 11:04:25 by lrobino     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/23 17:57:39 by lrobino           #+#    #+#             */
+/*   Updated: 2020/03/02 18:34:32 by lrobino          ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -55,7 +55,6 @@ char				*ft_strnstr(const char *little,
 					const char *big, size_t len);
 int					ft_atoi(const char *nptr);
 char				*ft_strdup(const char *s);
-char				*ft_fstrjoin(char *s1, char *s2, int free_state);
 
 void				*ft_calloc(size_t count, size_t size);
 void				ft_putchar_fd(char c, int fd);
@@ -65,13 +64,13 @@ void				ft_putnbr_fd(int c, int fd);
 char				*ft_substr(const char *s, unsigned int start, size_t len);
 char				*ft_strjoin(const char *s1, const char *s2);
 char				*ft_strtrim(const char *s1, const char *set);
+char				*ft_strinsert(char *src, char *in, size_t pos);
 char				*ft_itoa(int n);
 char				*ft_utoa(unsigned int n);
 char				*ft_itoa_base(int n, char *base);
 char				*ft_ltoa_base(long n, char *base);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				**ft_split(const char *s, char c);
-char				*ft_strinsert(char *src, char *in, size_t pos);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);
@@ -83,4 +82,6 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst,
 					void *(*f)(void *), void (*del)(void *));
+
+
 #endif

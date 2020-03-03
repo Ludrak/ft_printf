@@ -1,14 +1,13 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_printf_utils.c                                .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: lrobino <lrobino@student.le-101.fr>        +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/12/02 23:35:55 by lrobino      #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/03 00:48:46 by lrobino     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/29 00:06:37 by lrobino           #+#    #+#             */
+/*   Updated: 2020/02/29 18:14:14 by lrobino          ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
@@ -29,7 +28,7 @@ size_t		pf_get_format_type(char *f, t_pf_data *data)
 	return (len);
 }
 
-int			pf_get_number(char *flags, t_pf_data *data, va_list args)
+int			pf_get_number(char *flags, va_list args)
 {
 	int		val;
 
@@ -43,22 +42,18 @@ int			pf_get_number(char *flags, t_pf_data *data, va_list args)
 			return (0);
 		val = ft_atoi(flags);
 	}
-	if (val < 0)
-	{
-		data->flags |= PF_MINUS;
-		data->flags &= ~PF_ZERO;
-	}
+
 	return (val);
 }
 
 void		pf_set_padding(t_pf_data *data)
 {
-	//char	*content_buf;
+	char	*content_buf;
 	char	padding_char;
 	int		prefix;
 	int		content_len;
 
-	//content_buf = data->content;
+	content_buf = data->content;
 	content_len = data->len;
 	padding_char = (!(data->flags & PF_PREC) &&
 		(data->flags & PF_ZERO)) ? '0' : ' ';
@@ -76,11 +71,11 @@ void		pf_set_precision(t_pf_data *data)
 {
 	char	*content_buf;
 	int		prefix;
-	//int		precision;
+	int		precision;
 
 	if (data->precision < 0)
 		return ;
-	//precision = data->precision;
+	precision = data->precision;
 	content_buf = data->content;
 	prefix = 0;
 	if (pf_numeric_type(data->type))
@@ -103,15 +98,15 @@ void		pf_set_precision(t_pf_data *data)
 
 void		pf_set_flags(t_pf_data *data)
 {
-	//char	*content_buf;
+	char	*content_buf;
 	t_flags flags;
 	t_type	type;
-	//int		i;
+	int		i;
 
-	//i = 0;
+	i = 0;
 	flags = data->flags;
 	type = data->type;
-	//content_buf = data->content;
+	content_buf = data->content;
 	if (pf_numeric_type(data->type) &&
 		data->type != PF_LOW_HEX && data->type != PF_CAP_HEX)
 		if (ft_isdigit(data->content[0]) && data->type != PF_UINT)
