@@ -6,7 +6,7 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/03 12:27:57 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/03 12:42:18 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,10 @@ OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
 INCLUDES		= -Iincludes -Ilibft
 
 LIBFILES		= libft
-LIBDIR			= lib
+LIB_DIR			= lib
 
 ifdef LIBFILES
-	LIBS			= $(addprefix $(LIBDIR)/,$(addprefix $(LIBFILES),.a))
+	LIBS			= $(addprefix $(LIB_DIR)/,$(addprefix $(LIBFILES),.a))
 endif
 
 RM				= rm -rf
@@ -77,7 +77,7 @@ bonus : all
 
 
 
-$(NAME) : $(BIN_DIR) $(OBJS)
+$(NAME) : $(LIBS) $(BIN_DIR) $(OBJS)
 	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
 	@echo "$(m_LINK) Starting linker process..."
 	@cp $(LIBS) ./$(NAME)
@@ -87,7 +87,7 @@ $(NAME) : $(BIN_DIR) $(OBJS)
 
 
 c : compile
-compile : $(BIN_DIR) $(OBJS)
+compile : $(LIBS) $(BIN_DIR) $(OBJS)
 	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
 	@echo "$(m_LINK) Starting linker process..."
 	@$(LNK) $(OUT) $(EXEC) $(OBJS) $(LIBS)
@@ -109,19 +109,24 @@ $(BIN_DIR) :
 	@echo "$(m_WARN) Failed to locate $(BIN_DIR) directory. Creating it...$(C_RESET)";
 
 
+$(LIB_DIR) :
+	@mkdir -p $(LIB_DIR)
+	@echo "$(m_WARN) Failed to locate $(LIB_DIR) directory. Creating it...$(C_RESET)";
+
+
 
 $(BIN_DIR)/%.o : %.c
 	@$(CC) $< $(CFLAGS) $(OUT) $@ $(INCLUDES)
 	@printf "\r$(m_COMP) Compiled : $<"
 
 
-$(LIBDIR)/%.a : $(LIBFILES)
+$(LIB_DIR)/%.a : $(LIBFILES)
 	@echo "\n\n\033[1;36m#################################################################################"
 	@printf "\033[1;36m#  \033[0m[\033[1;36mLIBRARY\033[0m] ->	\033[1;35mCOMPILE		\033[0;32mCompiling : \033[0;35m%-30s\033[1;36m      #\n" $<
-	@echo "\033[1;36m#################################################################################"
+	@echo "\033[1;36m#################################################################################\n"
 	@make re -C $<
-	@mv $</$<.a $(LIBDIR)/$<.a
-	@echo "\033[1;36m#################################################################################"
+	@mv $</$<.a $(LIB_DIR)/$<.a
+	@echo "\033[1;36m\n#################################################################################"
 	@echo "\033[1;36m#################################################################################\n\n"
 
 
@@ -136,7 +141,10 @@ clean :
 lc : lclean
 lclean :
 	@$(RM) $(LIBS)
+	@$(RM) $(LIB_DIR)
+ifdef LIBFILES
 	@make fclean -C $(LIBFILES)
+endif
 	@echo "$(m_REMV) Removed libfiles"
 
 
@@ -172,11 +180,10 @@ version :
 
 
 
-re : v fclean $(LIBS) all
+re : v fclean $(LIB_DIR)  all
 
 
 
-recomp : v clean $(LIBS) compile
+recomp : v clean $(LIB_DIR) compile
 
 .PHONY	: all c compile recomp re fclean fc lclean lc clean version v cat ce bonus 
-
