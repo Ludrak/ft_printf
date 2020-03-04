@@ -6,12 +6,12 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:06:42 by lrobino           #+#    #+#             */
-/*   Updated: 2020/02/29 18:14:47 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/04 18:47:14 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
+
 int			pf_parse_flags(char *format, t_flags *flags)
 {
 	int		len;
@@ -24,7 +24,7 @@ int			pf_parse_flags(char *format, t_flags *flags)
 			*flags |= PF_ZERO;
 		if (*format == '-' && !((*flags &= ~PF_ZERO) & PF_ZERO))
 			*flags |= PF_MINUS;
-		if (*format == '+' && !((*flags &= ~PF_SPACE) & PF_ZERO))
+		if (*format == '+' && !((*flags &= ~PF_SPACE) & PF_SPACE))
 			*flags |= PF_PLUS;
 		if (*format == ' ' && !(*flags & PF_PLUS))
 			*flags |= PF_SPACE;
@@ -47,7 +47,7 @@ void		pf_parse_content(char *format, t_pf_data *data, va_list args)
 	pf_parse[2] = pf_parse_numeric;
 	pf_parse[3] = pf_parse_pointer;
 	pf_parse[4] = pf_parse_hexadecimal;
-	data->f_len = pf_get_format_type(format, data);
+	pf_get_format_type(format, data);
 	if (data->type == PF_PRC)
 	{
 		data->content = ft_strdup("%");

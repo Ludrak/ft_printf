@@ -6,13 +6,11 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 23:35:44 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/02 17:57:53 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/04 18:46:50 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <time.h>
-#include <limits.h>
 
 static t_pf_data	pf_parse(char *format, va_list args)
 {
@@ -23,6 +21,7 @@ static t_pf_data	pf_parse(char *format, va_list args)
 	init_format = format;
 	format += pf_parse_flags(format, &flags);
 	data.flags = flags;
+	data.f_len = pf_get_format_type(init_format, NULL);
 	pf_parse_padding(format, &data, args);
 	pf_parse_precision(format, &data, args);
 	pf_parse_content(format, &data, args);
@@ -32,7 +31,7 @@ static t_pf_data	pf_parse(char *format, va_list args)
 	data.f_len = pf_get_format_type(init_format, NULL);
 	return (data);
 }
-#include <stdio.h>
+
 int					ft_printf(char *format, ...)
 {
 	t_pf_data	data;
@@ -61,13 +60,14 @@ int					ft_printf(char *format, ...)
 	va_end(args);
 	return (length);
 }
-#include <stdio.h>
-int main()
-{
-	#define FORMAT	"%#.22X"
-	#define LST		32443242
 
-	ft_printf(FORMAT, LST);
-	printf ("\n");
-	printf(FORMAT, LST);
-}
+// #include <stdio.h>
+// int main()
+// {
+// 	#define FORMAT	"%0+8.5i"
+// 	#define LST		34
+
+// 	ft_printf(FORMAT, LST);
+// 	printf ("\n");
+// 	printf(FORMAT, LST);
+// }

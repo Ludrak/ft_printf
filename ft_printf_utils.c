@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:06:37 by lrobino           #+#    #+#             */
-/*   Updated: 2020/02/29 18:14:14 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/04 18:47:43 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int			pf_get_number(char *flags, va_list args)
 			return (0);
 		val = ft_atoi(flags);
 	}
-
 	return (val);
 }
 

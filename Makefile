@@ -6,7 +6,7 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/03 12:42:18 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/04 17:12:47 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ RM				= rm -rf
 CC				= gcc -c
 LNK				= gcc
 LIBLNK			= ar rcus
-CFLAGS			= -Wall -Wextra -Werror -g3
+CFLAGS			= -Wall -Wextra -Werror
 OUT				= --output
 
 C_RESET= \033[0m
@@ -68,7 +68,7 @@ m_REMV		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(BRED)CLEAN$(C_RESET)] :$(BY
 
 
 
-all : v $(LIBS) $(NAME)
+all : v $(LIB_DIR) $(LIBS) $(NAME)
 	@echo "$(C_RESET)Done."
 
 
@@ -165,13 +165,13 @@ version :
 	@echo "$(BBLUE)#################################################################################"
 	@echo "#                                                                               #"
 
-	@echo "#            :::      ::::::::                                                  #"
-	@echo "#          :+:      :+:    :+:                                                  #"
+	@echo "#           :::      ::::::::                                                   #"
+	@echo "#         :+:      :+:    :+:                                                   #"
 	@echo "#       +:+ +:+         +:+                                                     #"
 	@echo "#     +#+  +:+       +#+                                                        #"
 	@echo "#   +#+#+#+#+#+   +#+                                                           #"
 	@echo "#         #+#    #+#                                                            #"
-	@echo "#        ###   ######## - lyon                                                  #"
+	@echo "#        ###   ######## - Lyon                                                  #"
 	@echo "#                                                                               #"
 	@echo "#$(C_RESET)>-----------------------------------------------------------------------------<$(BBLUE)#"
 	@printf "#$(C_RESET)   Project : %-20.20s                                              $(BBLUE)#\n" $(NAME)
@@ -180,7 +180,7 @@ version :
 
 
 
-re : v fclean $(LIB_DIR)  all
+re : v fclean all
 
 
 
