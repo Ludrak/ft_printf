@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:46:43 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/04 19:02:12 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 12:21:28 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,24 @@ int		pf_parse_pointer(t_pf_data *data, va_list list)
 
 	if (data->type == PF_POINTER)
 	{
-		if (data->precision != 0)
+
+		if (!(val = (intptr_t)va_arg(list, void *)))
 		{
-			if (!(val = (intptr_t)va_arg(list, void *)))
+			if (data->precision == 0)
 			{
-				data->content = ft_strdup("0");
-				data->len = 1;
+				va_arg(list, void *);
+				data->content = ft_strdup("");
+				data->len = 0;
 				return (1);
 			}
-			data->content = ft_ltoa_base((intptr_t)val, "0123456789abcdef");
-			data->len = ft_strlen(data->content);
+			data->content = ft_strdup("0");
+			data->len = 1;
+			return (1);
 		}
 		else
 		{
-			va_arg(list, void *);
-			data->content = ft_strdup("");
-			data->len = 0;
+			data->content = ft_ltoa_base((intptr_t)val, "0123456789abcdef");
+			data->len = ft_strlen(data->content);
 		}
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:06:50 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/04 19:01:36 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 11:54:53 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,10 @@ void	pf_apply_precision(t_pf_data *data, int prefix)
 
 void	pf_apply_flag_hex(t_pf_data *data, t_flags flags, t_type type)
 {
-	if (!data->content || data->content[0] == '0' ||
-										data->type == PF_PRC)
-	{
+	if (!data->content || data->content[0] == '0')
 		data->flags &= ~PF_HASH;
+	if (data->type == PF_PRC)							
 		return ;
-	}
 	if ((flags & PF_HASH || type == PF_LOW_HEX || type == PF_POINTER) &&
 	!(type == PF_CAP_HEX))
 		if ((flags & PF_HASH && data->content[0] != '0') || type == PF_POINTER)

@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:06:46 by lrobino           #+#    #+#             */
-/*   Updated: 2020/02/29 00:07:18 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 12:09:02 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bool		pf_is_type(char c)
 {
 	if (c == 'c' || c == 's' || c == 'd' || c == 'p'
 	|| c == 'i' || c == 'u' || c == 'x' || c == 'X'
-	|| c == '%')
+	|| c == '%' || c == 'o')
 		return (TRUE);
 	return (FALSE);
 }
