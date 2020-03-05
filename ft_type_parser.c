@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:46:43 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/05 12:21:28 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 16:44:53 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		pf_parse_pointer(t_pf_data *data, va_list list)
 
 	if (data->type == PF_POINTER)
 	{
-
 		if (!(val = (intptr_t)va_arg(list, void *)))
 		{
 			if (data->precision == 0)

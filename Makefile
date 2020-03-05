@@ -6,7 +6,7 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/04 17:12:47 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/05 16:54:34 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -159,6 +159,12 @@ fclean : lc cl
 
 
 
+norm : version
+	@echo "$(m_INFO) Norme for : '$(NAME)'\n-->"
+	@norminette
+
+
+
 v : version
 version :
 	@clear
@@ -186,4 +192,28 @@ re : v fclean all
 
 recomp : v clean $(LIB_DIR) compile
 
-.PHONY	: all c compile recomp re fclean fc lclean lc clean version v cat ce bonus 
+.PHONY	: all c compile recomp re fclean fc lclean lc clean version v cat ce bonus
+
+
+##	TEST MAIN FOR FT_PRINTF
+
+# #include <stdio.h>
+# #include <limits.h>
+# #include "ft_printf.h"
+
+
+# #define FORMAT	"%p"
+# #define LST		(void*)0
+
+# int main()
+# {
+# 	int i, j;
+    
+# 	i = ft_printf(FORMAT, LST);
+# 	printf("\n");
+# 	j = printf(FORMAT, LST);
+# 	if (i == j)
+# 	    printf("\n\nReturn [\033[1;32mOK\033[0m]");
+# 	else
+# 		printf("\n\nReturn [\033[1;31mKO\033[0m] :(");
+# }

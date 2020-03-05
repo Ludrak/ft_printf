@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 00:06:37 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/04 18:47:43 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 16:48:09 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void		pf_set_padding(t_pf_data *data)
 
 	content_buf = data->content;
 	content_len = data->len;
-	padding_char = (!(data->flags & PF_PREC) &&
-		(data->flags & PF_ZERO)) ? '0' : ' ';
+	padding_char = ((!(data->flags & PF_PREC) || data->type == PF_PRC) &&
+		(data->flags & PF_ZERO) ? '0' : ' ');
 	if (data->content[0] == '\0' && data->type == PF_CHAR &&
 		data->flags & PF_MINUS)
 		content_len = 0;
 	prefix = (padding_char == '0') ? pf_get_prefix(data, &content_len) : 0;
 	if (data->padding > content_len)
-	{
+{
 		pf_apply_padding(data, content_len, padding_char, prefix);
 	}
 }

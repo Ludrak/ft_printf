@@ -6,7 +6,7 @@
 /*   By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/02 23:35:44 by lrobino           #+#    #+#             */
-/*   Updated: 2020/03/05 12:22:14 by lrobino          ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 16:36:47 by lrobino          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,3 @@ int					ft_printf(char *format, ...)
 	va_end(args);
 	return (length);
 }
-
-// #include <stdio.h>
-// #include <limits.h>
-// int main()
-// {
-// 	int a = 412;
-// 	#define FORMAT	"%p"
-// 	#define LST		(void*)&a
-// 	int i = 0, j = 0;
-
-// 	i = ft_printf(FORMAT, LST);
-// 	printf ("\n");
-// 	j = printf(FORMAT, LST);
-// 	if (i == j)
-// 		printf ("\n\nReturn [OK]");
-// 	else
-// 		printf ("\n\nReturn [KO] :(");
-// }
