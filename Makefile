@@ -6,7 +6,7 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/05 16:54:34 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/07 15:08:02 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ BIN_DIR			= bin
 OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
 
 INCLUDES		= -Iincludes -Ilibft
+PATH_INC		= includes/ft_printf.h libft/libft.h
 
 LIBFILES		= libft
 LIB_DIR			= lib
@@ -77,7 +78,7 @@ bonus : all
 
 
 
-$(NAME) : $(LIBS) $(BIN_DIR) $(OBJS)
+$(NAME) : $(LIBS) $(BIN_DIR) $(OBJS) $(PATH_INC)
 	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
 	@echo "$(m_LINK) Starting linker process..."
 	@cp $(LIBS) ./$(NAME)
@@ -117,7 +118,7 @@ $(LIB_DIR) :
 
 $(BIN_DIR)/%.o : %.c
 	@$(CC) $< $(CFLAGS) $(OUT) $@ $(INCLUDES)
-	@printf "\r$(m_COMP) Compiled : $<"
+	@printf "\r$(m_COMP) Compiled : $<                      "
 
 
 $(LIB_DIR)/%.a : $(LIBFILES)
@@ -170,7 +171,6 @@ version :
 	@clear
 	@echo "$(BBLUE)#################################################################################"
 	@echo "#                                                                               #"
-
 	@echo "#           :::      ::::::::                                                   #"
 	@echo "#         :+:      :+:    :+:                                                   #"
 	@echo "#       +:+ +:+         +:+                                                     #"

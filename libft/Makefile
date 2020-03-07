@@ -6,7 +6,7 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/04 17:12:40 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/07 15:07:41 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ BIN_DIR			= bin
 OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
 
 INCLUDES		= -I.
+PATH_INC		= libft.h
 
 CC				= gcc -c
 LNK				= gcc
@@ -127,7 +128,7 @@ bonus : all
 
 
 
-$(NAME) : $(LIB_DIR) $(LIBS) $(BIN_DIR) $(OBJS)
+$(NAME) : $(LIB_DIR) $(LIBS) $(BIN_DIR) $(OBJS) $(PATH_INC)
 	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
 	@echo "$(m_LINK) Starting linker process..."
 	@$(LIBLNK) $(NAME) $(OBJS)
@@ -166,7 +167,7 @@ $(LIB_DIR) :
 
 $(BIN_DIR)/%.o : %.c
 	@$(CC) $< $(CFLAGS) $(OUT) $@ $(INCLUDES)
-	@printf "\r$(m_COMP) Compiled : $<"
+	@printf "\r$(m_COMP) Compiled : $<                     "
 
 
 $(LIB_DIR)/%.a : $(LIBFILES)
