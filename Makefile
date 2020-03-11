@@ -6,17 +6,30 @@
 #    By: lrobino <lrobino@student.le-101.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/28 00:13:18 by lrobino           #+#    #+#              #
-#    Updated: 2020/03/07 15:08:02 by lrobino          ###   ########lyon.fr    #
+#    Updated: 2020/03/11 15:26:06 by lrobino          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
+##	AUTHOR
 AUTHOR			= lrobino
 
-NAME			= libftprintf.a
-EXEC			= test-printf.out
-
+##	VERSION
 VERSION			= 1.0
 
+##	THE DIRECTORY OF YOUR FINAL TARGET
+TARGET_DIR		= .
+
+##	TARGET NAMES FOR BOTH EXECUTABLE AND LIBRARY COMPILATION
+TARGET_LIB		= libftprintf.a
+TARGET_EXE		= test-printf.out
+
+##	CHOOSE WHICH TARGET TO USE BY DEFAULT
+TARGET			= $(TARGET_LIB)
+
+##	SOURCES DIRECTORY OF YOUR PROJECT (USE '.' IF THEY ARE IN THE CURRENT FOLDER)
+SRC_DIR			= .
+
+##	SOURCES OF YOUR PROJECT
 SRCS			= ft_printf.c					\
 				  ft_printf_parser.c			\
 				  ft_type_parser.c				\
@@ -24,25 +37,42 @@ SRCS			= ft_printf.c					\
 				  ft_printf_basic_utils.c		\
 				  ft_printf_basic_utils_bis.c
 
-
-
+##	BINARIES DIRECTORY OF YOUR PROJECT
 BIN_DIR			= bin
-OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
 
-INCLUDES		= -Iincludes -Ilibft
-PATH_INC		= includes/ft_printf.h libft/libft.h
 
-LIBFILES		= libft
+##	PUT THE DIRECTORIES OF YOUR HEADER FILES HERE
+HEADERS_DIR		= includes lib/libft
+
+##	HEADERS OF YOUR PROJET /!\ USE FULL PATH FROM CURRENT FOLDER /!\ 
+HEADERS			= includes/ft_printf.h
+
+##	LIBS DIRECTORY OF YOUR PROJECT (USE '-' IF YOUR PROJECT DO NOT USE LIBRARY)
 LIB_DIR			= lib
 
-ifdef LIBFILES
-	LIBS			= $(addprefix $(LIB_DIR)/,$(addprefix $(LIBFILES),.a))
+##	LIBS THAT YOU ARE USING
+LIBS			= libft
+
+################################################################################
+####					DO NOT EDIT THINGS BELOW THIS						####
+################################################################################
+
+##
+
+OBJS			= $(addprefix $(BIN_DIR)/,$(SRCS:.c=.o))
+
+INCLUDES		= $(addprefix -I,$(HEADERS_DIR))
+
+ifneq	($(LIB_DIR), -)
+	LIBFILES		= $(addprefix $(LIB_DIR)/,$(addsuffix .a,$(LIBS)/$(LIBS)))
 endif
+
+##
 
 RM				= rm -rf
 CC				= gcc -c
-LNK				= gcc
-LIBLNK			= ar rcus
+GCC				= gcc
+AR				= ar rcus
 CFLAGS			= -Wall -Wextra -Werror
 OUT				= --output
 
@@ -59,79 +89,73 @@ RED		= \033[0;31m
 BLUE	= \033[0;34m
 BBLUE	= \033[1;34m
 
-m_MAKE		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)MAKE$(C_RESET)] :
-m_INFO		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)INFO$(C_RESET)] :
-m_LINK		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)LINK$(C_RESET)] :
-m_COMP		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(PURPLE)COMP$(C_RESET)] :
+m_MAKE		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(PURPLE)MAKE$(C_RESET)] :
+m_INFO		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(PURPLE)INFO$(C_RESET)] :
+m_LINK		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(PURPLE)LINK$(C_RESET)] :
+m_COMP		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(PURPLE)COMP$(C_RESET)] :
 
-m_WARN		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(BYELLOW)WARN$(C_RESET)] :$(YELLOW)
-m_REMV		= $(C_RESET)[$(BBLUE) $(NAME) $(C_RESET)] [$(BRED)CLEAN$(C_RESET)] :$(BYELLOW)
-
-
-
-all : v $(LIB_DIR) $(LIBS) $(NAME)
-	@echo "$(C_RESET)Done."
+m_WARN		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(BYELLOW)WARN$(C_RESET)] :$(YELLOW)
+m_REMV		= $(C_RESET)[$(BBLUE) $(TARGET) $(C_RESET)] [$(BRED)CLEAN$(C_RESET)] :$(BYELLOW)
+m_ERR		= $(C_RESET)[$(BRED) $(TARGET) $(C_RESET)] [$(BRED)ERROR$(C_RESET)] :$(BYELLOW)
 
 
 
-bonus : all
-
-
-
-$(NAME) : $(LIBS) $(BIN_DIR) $(OBJS) $(PATH_INC)
-	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
-	@echo "$(m_LINK) Starting linker process..."
-	@cp $(LIBS) ./$(NAME)
-	@$(LIBLNK) $(NAME) $(OBJS)
-	@echo "$(m_LINK) Link sucess ! '$(NAME)' created."
-
-
-
-c : compile
-compile : $(LIBS) $(BIN_DIR) $(OBJS)
-	@echo "\r$(m_MAKE) Successfully compiled project : $(BGREEN)$(NAME)$(C_RESET)"
-	@echo "$(m_LINK) Starting linker process..."
-	@$(LNK) $(OUT) $(EXEC) $(OBJS) $(LIBS)
-	@echo "$(m_LINK) Link sucess ! '$(NAME)' created."
-	@echo "$(m_INFO) Executing project : $(BGREEN)$(EXEC)\n$(BPURPLE)=V=[$(EXEC)]=V=$(C_RESET)"
-	@./$(EXEC)
+all : version $(TARGET)
 	
+	@echo "$(C_RESET) Done."
+
+##
+##	LIB TARGET COMPILER	
+##
+lib : $(TARGET_LIB)
+$(TARGET_LIB) : $(LIB_DIR)/ $(LIBFILES) $(BIN_DIR) $(OBJS)
+	@echo "$(m_LINK) Linking library : $(TARGET_LIB)"
+	@$(AR) $(TARGET_LIB) $(OBJS) $(LIBFILES)
+	@echo "$(m_LINK) Link success !"
 
 
-ce : cat
-cat : $(BIN_DIR) $(OBJS)
-	@$(LNK) $(OUT) $(EXEC) $(OBJS) $(LIBS)
-	@./$(EXEC) | cat -e
+##
+##	EXECUTABLE TARGET COMPILER
+##
+exe : $(TARGET_EXE)
+$(TARGET_EXE) : $(LIB_DIR)/ $(LIBFILES) $(BIN_DIR) $(OBJS)
+	@echo "$(m_LINK) Making target $(TARGET_EXE)"
+	@$(GCC) $(OUT) $(TARGET_EXE) $(CFLAGS) $(OBJS) $(LIBFILES)
+	@echo "$(m_LINK) Link success !"
 
-
-
+##
+##	BINS
+##
 $(BIN_DIR) :
 	@mkdir -p $(BIN_DIR)
-	@echo "$(m_WARN) Failed to locate $(BIN_DIR) directory. Creating it...$(C_RESET)";
-
-
-$(LIB_DIR) :
-	@mkdir -p $(LIB_DIR)
-	@echo "$(m_WARN) Failed to locate $(LIB_DIR) directory. Creating it...$(C_RESET)";
+	@echo "$(m_WARN) $(BIN_DIR)/ Not found, created one.$(C_RESET)";
 
 
 
-$(BIN_DIR)/%.o : %.c
+$(BIN_DIR)/%.o : %.c $(HEADERS)
 	@$(CC) $< $(CFLAGS) $(OUT) $@ $(INCLUDES)
-	@printf "\r$(m_COMP) Compiled : $<                      "
-
-
-$(LIB_DIR)/%.a : $(LIBFILES)
-	@echo "\n\n\033[1;36m#################################################################################"
-	@printf "\033[1;36m#  \033[0m[\033[1;36mLIBRARY\033[0m] ->	\033[1;35mCOMPILE		\033[0;32mCompiling : \033[0;35m%-30s\033[1;36m      #\n" $<
-	@echo "\033[1;36m#################################################################################\n"
-	@make re -C $<
-	@mv $</$<.a $(LIB_DIR)/$<.a
-	@echo "\033[1;36m\n#################################################################################"
-	@echo "\033[1;36m#################################################################################\n\n"
+	@echo "$(m_COMP) Compiled : $<"
 
 
 
+##
+##	LIB
+##
+$(LIB_DIR)/ :
+ifneq	($(LIB_DIR), -)
+	@echo "$(m_ERR) Could not find $(LIB_DIR)/ directory !"
+endif
+
+
+$(LIB_DIR)/%/libft.a : $(LIB_DIR)/%
+	@echo "$(m_MAKE) COMPILING LIB : $<$(C_RESET)"
+	@$(MAKE) -C $<
+
+
+
+##
+##	CLEAN
+##
 cl : clean
 clean :
 	@$(RM) $(BIN_DIR)
@@ -139,36 +163,28 @@ clean :
 
 
 
-lc : lclean
-lclean :
-	@$(RM) $(LIBS)
-	@$(RM) $(LIB_DIR)
-ifdef LIBFILES
-	@make fclean -C $(LIBFILES)
-endif
-	@echo "$(m_REMV) Removed libfiles"
-
-
-
 fc : fclean
-fclean : lc cl
-	@$(RM) $(NAME)
-	@$(RM) $(NAME).dSYM
-	@$(RM) $(EXEC)
-	@$(RM) $(EXEC).dSYM
-	@echo "$(m_REMV) Removed exectuable : '$(NAME)'"
+fclean : clean
+	@$(RM) $(TARGET_LIB)
+	@$(RM) $(TARGET_LIB).dSYM
+	@$(RM) $(TARGET_EXEC)
+	@$(RM) $(TARGET_EXEC).dSYM
+	@echo "$(m_REMV) Removed target : '$(TARGET_LIB)'"
 
 
 
+##
+##	UTILS
+##
 norm : version
-	@echo "$(m_INFO) Norme for : '$(NAME)'\n-->"
+	@echo "$(m_INFO) Norme for : '$(TARGET_LIB)'\n-->"
 	@norminette
 
 
 
 v : version
 version :
-	@clear
+	@printf "\e[1;1H\e[2J"
 	@echo "$(BBLUE)#################################################################################"
 	@echo "#                                                                               #"
 	@echo "#           :::      ::::::::                                                   #"
@@ -180,40 +196,15 @@ version :
 	@echo "#        ###   ######## - Lyon                                                  #"
 	@echo "#                                                                               #"
 	@echo "#$(C_RESET)>-----------------------------------------------------------------------------<$(BBLUE)#"
-	@printf "#$(C_RESET)   Project : %-20.20s                                              $(BBLUE)#\n" $(NAME)
+	@printf "#$(C_RESET)   Project : %-20.20s                                              $(BBLUE)#\n" $(TARGET_LIB)
 	@printf "#$(C_RESET)   Version : %-15.15s                       Author : %-10.10s         $(BBLUE)#\n" $(VERSION) $(AUTHOR)
 	@echo "#################################################################################$(C_RESET)\n\n"
 
+##
+##	SHORTCUTS
+##
+re : version fclean all
 
+################################################################################
 
-re : v fclean all
-
-
-
-recomp : v clean $(LIB_DIR) compile
-
-.PHONY	: all c compile recomp re fclean fc lclean lc clean version v cat ce bonus
-
-
-##	TEST MAIN FOR FT_PRINTF
-
-# #include <stdio.h>
-# #include <limits.h>
-# #include "ft_printf.h"
-
-
-# #define FORMAT	"%p"
-# #define LST		(void*)0
-
-# int main()
-# {
-# 	int i, j;
-    
-# 	i = ft_printf(FORMAT, LST);
-# 	printf("\n");
-# 	j = printf(FORMAT, LST);
-# 	if (i == j)
-# 	    printf("\n\nReturn [\033[1;32mOK\033[0m]");
-# 	else
-# 		printf("\n\nReturn [\033[1;31mKO\033[0m] :(");
-# }
+.PHONY	: all re fclean fc clean version v exe lib
