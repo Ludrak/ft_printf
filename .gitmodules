@@ -1,6 +1,3 @@
-[submodule "libft"]
-	path = libft
-	url = https://github.com/Ludrak/libft
 [submodule "lib/libft"]
 	path = lib/libft
 	url = https://github.com/Ludrak/libft
